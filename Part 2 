@@ -1,0 +1,98 @@
+
+
+import math
+import random
+import sys
+
+def playGame():
+    bushels = 2800
+    population = 100
+    acres = 1000
+    landValue = 19
+    landToSell = askHowManyAcresToSell(acres)
+    acres = acres - landToSell
+    bushels = bushels + (landToSell * landValue)
+    bushelsFedToPeople = askHowMuchGrainToFeedPeople(bushels)
+    howManyPeopleStarved = starvationDeaths(population, bushelsFedToPeople)
+    gameOver = uprising(population, howManyPeopleStarved)
+    if gameOver == True:
+        print("You are impeached! Down with the King.")
+        sys.exit()
+    population = plagueDeaths(population)
+
+#-----------------HOW MANY ACRES TO SELL-----------------#
+# Asks the player how many acres of land to sell, and returns that number. You can't sell more than you have.
+# Do not ask this question if the player is buying land; it doesn't make sense to do both in one turn.
+
+def askHowManyAcresToSell(acresOwned):
+    print("How many acres of land do you want to sell? You have " + str(acresOwned) + " acres.")
+    landToSell = int(input("How many acres do you want to sell? "))
+    while(landToSell > acresOwned):
+        print(str(landToSell) + " is more than you own. You have " + str(acresOwned) + " acres.")
+        landToSell = int(input("How many acres do you want to sell? "))
+    # bushels = bushels + land_to_sell * 19 needs to be in the playGame method because we do not have wallet in this method
+    
+    return landToSell
+
+
+
+#-----------------HOW MANY GRAINS TO FEED PEOPLE-----------------#
+
+#Ask the player how much grain to feed people, and returns that number.
+# You can't feed them more grain than you have.
+# You can feed them more than they need to survive.
+
+
+def askHowMuchGrainToFeedPeople(bushels):
+    print ("How many bushels do you want to feed to the population? (20 per person required")
+    bushelsFedToPeople = int(input("Enter bushels to feed to people: "))
+    # check if the number enter is bigger than the storage  
+    while (bushelsFedToPeople > bushels):
+        print ("You have " +  str(bushels) + " bushels. You do not have enough bushels. Enter the number again")
+        bushelsFedToPeople = int(input("Enter the number of bushels to feed the people:  "))
+    return bushelsFedToPeople
+
+#-----------------PLAGUE DEATHS-----------------#
+#Each year, there is a 15% chance of a horrible plague.
+# When this happens, half your people die.
+# Return the number of plague deaths (possibly zero).
+
+def plagueDeaths(population):
+    chanceOfPlagues = random.randint(1,100)
+    if chanceOfPlagues < 16:
+        print("Plague got you this year. Half your population is dead.")
+        return population  // 2
+    else:
+        print("Good news! No plagues this year")
+        return population
+    
+#-----------------STARVATION-----------------#
+#Each person needs 20 bushels of grain to survive.
+# If you feed them more than this, they are happy, but the grain is still gone.
+# You don't get any benefit from having happy subjects. Return the number of deaths from starvation (possibly zero).
+
+
+def starvationDeaths(population, bushelsFedToPeople):
+    minToSurvive = int(population) * 20          #the min. to survive is the number of people * 20 bushels
+    
+    #Number of deaths due starvation    
+    if bushelsFedToPeople < minToSurvive:
+        howManyPeopleStarved = math.ceil((minToSurvive - bushelsFedToPeople) / 20) #math.ceil round up the number of dead people.
+        print("This many people starved " + str(howManyPeopleStarved)) 
+        return howManyPeopleStarved
+    else: 
+        return 0
+    
+#-----------------UPRISING-----------------#
+  
+#Return True if more than 45% of the people starve.
+#(This will cause you to be immediately thrown out of office, ending the game.)
+
+
+def uprising(population, howManyPeopleStarved):
+    if howManyPeopleStarved > (population * 0.45):
+        return True
+    else: 
+        return False 
+
+playGame()
