@@ -110,7 +110,34 @@ class GameYear:
         self.fertility = random.randint(1, 7)
         self.harvest = self.acresPlanted * self.fertility
 
+######## ULAS ##########
 
+    def askHowManyAcresToPlant(self):
+        while True:
+            print("To plant on the land, we need two bushels per acre. One citizen can work up to ten acres each.")
+            plan = int(input("How many acres you want to plant?  "))
+            if plan > self.acresOwned:
+                print("You don't have enough acres, my lord.")
+            elif plan > 10 * self.population:
+                print("We don't have enough people to work that much land.")
+            elif 2*plan >self.wallet:
+                print("We do not have enough seed to plant that much land.")
+            else: 
+                self.wallet = self.wallet - 2*plan
+                self.acresPlanted = plan  
+                return plan   
+        
+    def grainEatenByRats(self):
+        x = random.randint(0, 100)
+        if(x>40):
+            self.bushelRats = 0
+        else:
+            loss = random.randint(1, 3)
+            self.bushelRats = int((loss/10) * self.wallet)
+            self.wallet = self.wallet - loss
+            
+    def newCostOfLand(self):
+        self.landValue = random.randint(17, 23)
 
 ###### Maisha #######
     def askHowManyAcresToBuy(self):
