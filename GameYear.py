@@ -156,9 +156,9 @@ class GameYear:
             elif acres == 0:
                 self.bought ==False
                 return acres
-        
-
+   
     def getImmigrants(self):
         if self.howManyPeopleStarved == 0:
             self.immigrants = int((( 20*self.acresOwned + self.wallet) // (100 * self.population) + 1))
+            #updating population adding immigrants
             self.population += self.immigrants 
