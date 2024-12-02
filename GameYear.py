@@ -139,26 +139,3 @@ class GameYear:
     def newCostOfLand(self):
         self.landValue = random.randint(17, 23)
 
-###### Maisha #######
-    def askHowManyAcresToBuy(self):
-        while True:  
-            print(f"Land value is {self.landValue} bushels per acre.")
-            acres = int(input("How many acres of land would you like to buy?  "))
-            if acres > 0 and acres * self.landValue <= self.wallet:
-                self.bought = True
-                self.acresOwned += acres
-                self.wallet -= acres * self.landValue
-                return acres
-            elif acres < 0:
-                print("I beg your pardon, please decree a positive number.")
-            elif self.landValue*acres > self.wallet:
-                print("We do not have enough bushels to purchase that much land, O Hammurabi. Please decree again.")
-            elif acres == 0:
-                self.bought ==False
-                return acres
-        
-
-    def getImmigrants(self):
-        if self.howManyPeopleStarved == 0:
-            self.immigrants = int((( 20*self.acresOwned + self.wallet) // (100 * self.population) + 1))
-            self.population += self.immigrants 
