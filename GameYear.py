@@ -92,7 +92,19 @@ class GameYear:
 
 
         ####### Sharmin #######
-    
+    def askHowMuchGrainToFeedPeople(self):
+        while True:
+            print("Each citizen needs 20 bushels to survive the year.")
+            pantry = int(input("How many bushels do you want to use to feed the people?  "))
+            if pantry>self.wallet:
+                print("As much as I wish it were true, it is not possible.")
+                print("Please decree a new number, O Hammurabi.")
+            if pantry<0:
+                print("We cannot take from their homes. They depend on us, we must give.")
+            if pantry>0 and pantry<= self.wallet:
+                self.wallet = self.wallet - pantry
+                self.bushelsFed = pantry
+                return self.bushelsFed
     
     def getHarvest(self):
         self.fertility = random.randint(1, 7)
